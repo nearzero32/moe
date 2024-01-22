@@ -1,223 +1,63 @@
 <template>
   <div class="text-right">
-    <v-row class="he" style="padding-block: 2%">
-      <VCol cols="12" md="6" class="log">
-        <img class="logo" src="@/assets/sc.png" alt="logo" />
-        <h3 class="title">مدارس الياسمن الأهلية</h3>
-      </VCol>
-      <VCol cols="12" md="6" class="text-center">
-        <h5 style="color: #757776">الأستمارة الألكترونية لطلب التعيين</h5>
-      </VCol>
-    </v-row>
     <VCard style="background-color: white">
       <VContainer class="text-right">
         <VForm v-model="addData.isFormValid">
           <v-row class="mt-10">
-          <!-- name -->
-          <v-col cols="12" md="6">
-            <v-text-field
-              label="الاسم الثلاثي"
-              :rules="Rules.required"
-              v-model="data_upload.name"
-              outlined
-              dense
-              required
-            >
-            </v-text-field>
-          </v-col>
-          <v-col :cols="file ? '6' : '12'" :md="file ? '3' : '6'">
-            <v-file-input
-              @change="onFileChange"
-              show-size
-              v-model="file"
-              truncate-length="15"
-              outlined
-              label="الصورة"
-              dense
-              accept="image/*"
-            ></v-file-input>
-          </v-col>
-          <v-col cols="6" md="3" v-if="file">
-            <v-img
-              :src="data_upload.image"
-              contain
-              style="width: 200px; height: 100px"
-            ></v-img>
-          </v-col>
-          <!-- birthday -->
-          <v-col cols="12" md="4">
-            <VTextField
-                v-model="data_upload.birthday"
+            <!-- name -->
+          <div class="inputField" id="">
+              <v-text-field
+                label="الاسم الثلاثي"
                 :rules="Rules.required"
-                dense
-                label="المواليد"
-                type="date"
-                outlined
-                clearable
-              />
-          </v-col>
-          <!-- degree -->
-          <v-col cols="12" md="4">
-            <v-text-field
-              label="التحصيل الدراسي"
-              :rules="Rules.required"
-              v-model="data_upload.degree"
-              outlined
-              dense
-              required
-            >
-            </v-text-field>
-          </v-col>
-          <!-- college -->
-          <v-col cols="12" md="4">
-            <v-text-field
-              label="الجامعة"
-              :rules="Rules.required"
-              v-model="data_upload.college"
-              outlined
-              dense
-              required
-            >
-            </v-text-field>
-          </v-col>
-          <!-- year_graduate -->
-          <v-col cols="12" md="4">
-            <v-autocomplete
-              v-model="data_upload.year_graduate"
-              :rules="Rules.required"
-              :items="years"
-              label="سنة التخرج"
-              outlined
-              dense
-              required
-            />
-          </v-col>
-          <!-- phone1 -->
-          <v-col cols="12" md="4">
-            <v-text-field
-              label="رقم الهاتف 1"
-              type="number"
-              v-model="data_upload.phone1"
-              :rules="[phoneNumberRule]"
-              outlined
-              dense
-              required
-            >
-            </v-text-field>
-          </v-col>
-          <!-- phone2 -->
-          <v-col cols="12" md="4">
-            <v-text-field
-              label="رقم الهاتف 2"
-              type="number"
-              v-model="data_upload.phone2"
-              :rules="[phoneNumberRule]"
-              outlined
-              dense
-              required
-            >
-            </v-text-field>
-          </v-col>
-          <!-- address -->
-          <v-col cols="12">
-            <v-row>
-              <v-col cols="12" md="4">
-                <v-text-field
-                  label="العنوان"
-                  v-model="data_upload.address"
-                  :rules="Rules.required"
-                  outlined
-                  dense
-                  required
-                >
-                </v-text-field>
-              </v-col>
-              <v-col cols="12" md="3">
-                <v-text-field
-                  label="م"
-                  v-model="data_upload.address_m"
-                  :rules="Rules.required"
-                  outlined
-                  dense
-                  required
-                >
-                </v-text-field>
-              </v-col>
-              <v-col cols="12" md="3">
-                <v-text-field
-                  label="ز"
-                  v-model="data_upload.address_z"
-                  :rules="Rules.required"
-                  outlined
-                  dense
-                  required
-                >
-                </v-text-field>
-              </v-col>
-              <v-col cols="12" md="2">
-                <v-text-field
-                  label="د"
-                  v-model="data_upload.address_d"
-                  :rules="Rules.required"
-                  outlined
-                  dense
-                  required
-                >
-                </v-text-field>
-              </v-col>
-            </v-row>
-          </v-col>
-          <!-- nearest_landmark -->
-          <v-col cols="12" md="4">
-            <v-text-field
-              label="أقرب نقطة دالة"
-              v-model="data_upload.nearest_landmark"
-              :rules="Rules.required"
-              outlined
-              dense
-              required
-            >
-            </v-text-field>
-          </v-col>
-          <!-- nearest_landmark -->
-          <v-col cols="12" md="4">
-            <v-select
-              v-model="data_upload.social_status"
-              :items="social_status_items"
-              :rules="Rules.required"
-              outlined
-              dense
-              required
-            >
-            </v-select>
-          </v-col>
-          <!-- nearest_landmark -->
-          <v-col cols="12" md="4">
-            <v-text-field
-              label="العمل سابقا"
-              v-model="data_upload.last_work"
-              :rules="Rules.required"
-              outlined
-              dense
-              required
-            >
-            </v-text-field>
-          </v-col>
-          <!-- btn -->
-          <v-col cols="12">
-            <v-btn
-              block
-              color="#757575"
-              style="color: white"
-              :loading="addData.loading"
-              :disabled="!addData.isFormValid"
-              @click="submitData"
-            >
-              <span class="register_btn">ارسال</span>
-              <v-icon>fa-file-invoice</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
+                v-model="data_upload.name"
+              >
+              </v-text-field>
+          </div>
+            <div class="images">
+              <div class="warning">
+                <span class="iIcon">i</span>
+                <h6>
+                  اضغط علامة <span class="inlineIcon">+</span> لأضافة المستمسكات
+                  و الصور المطلوبة
+                </h6>
+              </div>
+              <div class="imgContainer">
+                <!-- <div class="title">أدخل صورة هويتك</div> -->
+                <div class="imgBox">
+                  <button class="addBtn">+</button>
+                  <h4>البطاقة الوطنية ( الوجه )</h4>
+                </div>
+              </div>
+              <div class="imgContainer">
+                <!-- <div class="title">أدخل صورة هويتك</div> -->
+                <div class="imgBox">
+                  <button class="addBtn">+</button>
+                  <h4>البطاقة الوطنية ( الكَفة )</h4>
+                </div>
+              </div>
+              <div class="imgContainer">
+                <!-- <div class="title">أدخل صورة هويتك</div> -->
+                <div class="imgBox">
+                  <button class="addBtn">+</button>
+                  <h4>البطاقة الوطنية ( الكَفة )</h4>
+                </div>
+              </div>
+            </div>
+            <!-- btn -->
+            <v-col cols="12">
+              <v-btn
+                block
+                color="#757575"
+                style="color: white"
+                :loading="addData.loading"
+                :disabled="!addData.isFormValid"
+                @click="submitData"
+              >
+                <span class="register_btn">ارسال</span>
+                <v-icon>fa-file-invoice</v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
         </VForm>
       </VContainer>
     </VCard>
@@ -416,35 +256,77 @@ export default {
 };
 </script>
 
-<style scoped>
-.log {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.he {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  background-image: url("@/assets/yasmin-website.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-.title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #757776;
-  margin-bottom: 1rem;
-}
+<style lang="scss" scoped>
+@use "../styles/scss/mixins" as *;
+@use "../styles/scss/vars" as *;
+@use "../styles/scss/placeholders";
 
-.logo {
-  width: 100px;
-  height: 100px;
-}
-.v-selection-control-group--inline {
+.images {
+  @extend %centering;
   flex-direction: row;
-  flex-wrap: wrap;
-  flex-direction: row-reverse !important;
+  width: 100%;
+  margin: 12px;
+  gap: 1rem;
+  .warning {
+    @extend %centering;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+    padding: 0 10px;
+    width: 100%;
+    background-color: $lastColor;
+    border-bottom: solid 1px $mainColor;
+    h6 {
+      margin-right: 10px;
+      .inlineIcon {
+        font-size: 1.8rem;
+        color: $mainColor;
+      }
+    }
+    .iIcon {
+      font-size: 1.5rem;
+      background-color: $accColor;
+      color: $mainColor;
+      display: block;
+      text-align: center;
+      border: dashed 2px $mainColor;
+      border-radius: 50%;
+      height: 30px;
+      aspect-ratio: 1;
+      line-height: 23px;
+    }
+  }
+  .imgContainer {
+    width: calc(100% / 2 - 1rem);
+    background-color: $lastColor;
+    height: 200px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    cursor: pointer;
+    @include minQuery(600px) {
+      width: 100%;
+    }
+    .title {
+      background-color: $mainColor;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 4px 16px;
+      color: $lastColor;
+    }
+    .imgBox {
+      @extend %centering;
+      border: dashed 3px $mainColor;
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+      //style (2)
+      //border-top: none; // <== commenting this line
+      border-radius: 16px;
+      height: 100%; // heigth 100% for style (2) and calc(100% - 34px) for main style
+    }
+    .addBtn {
+      color: $mainColor;
+      font-size: 3rem;
+    }
+  }
 }
 </style>
